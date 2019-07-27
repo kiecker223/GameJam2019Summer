@@ -16,13 +16,16 @@ public class PlayerMovement : MonoBehaviour
 	{
 		get
 		{
-			RaycastHit2D hit2d;
-			if (currentSprite)
-				hit2d = Physics2D.Raycast(transform.position, Vector2.down, currentSprite.bounds.size.y / 2f);
-			else
-				hit2d = Physics2D.Raycast(transform.position, Vector2.down, 0.55f);
+			RaycastHit2D[] hits2d = new RaycastHit2D[12];
+			int numHits;
 
-			return hit2d.collider != null || hit2d.collider.gameObject.tag == "Player";
+			ContactFilter2D contactFilter = new ContactFilter2D();
+			if (currentSprite)
+				numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, currentSprite.bounds.size.y / 2f);
+			else
+				numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, 0.55f);
+			
+			return numHits > 1;
 		}
 	}
 
