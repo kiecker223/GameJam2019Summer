@@ -10,17 +10,21 @@ public class Possession : MonoBehaviour
 
     public string state = "ghost";
     private string colliderState = "null";
+<<<<<<< HEAD
+<<<<<<< HEAD
+    private bool isPossessionButtonPressed = false;
 
+=======
+=======
+>>>>>>> master
     private Collider2D currentCollider;
     private bool isPossessionButtonPressed = false;
 
     public Transform redpandaprefab;
-
-    public Transform tigerprefab;
-    public Transform koifishprefab;
-    public Transform craneprefab;
-
-
+<<<<<<< HEAD
+>>>>>>> master
+=======
+>>>>>>> master
 
     void Start()
     {
@@ -30,6 +34,19 @@ public class Possession : MonoBehaviour
     void Update()
     {
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+		isPossessionButtonPressed = false;// InputManager.Instance.GetPossessionButtonDown_Player1();
+
+        if (isPossessionButtonPressed)
+        {
+            if (state == "ghost" && colliderState!="null")
+=======
+=======
+>>>>>>> master
+
+
+
         isPossessionButtonPressed = InputManager.Instance.GetPossessionButtonDown_Player1();
 
         if (isPossessionButtonPressed)
@@ -37,76 +54,108 @@ public class Possession : MonoBehaviour
             Debug.Log("trying to possess");
 
 
-            if (state == "ghost" && colliderState != "null"){
+            if (state == "ghost" && colliderState != "null")
+<<<<<<< HEAD
+>>>>>>> master
+=======
+>>>>>>> master
+            {
                 Debug.Log("You possessed a " + colliderState);
                 state = colliderState;
                 colliderState = "null";
                 //Despawn the creature that you possessed
+<<<<<<< HEAD
+<<<<<<< HEAD
+            }
+            else
+            {
+=======
+=======
+>>>>>>> master
+                
                 Destroy(currentCollider.gameObject);
             }
+
             else if (state != "ghost")
             {
-                if (state == "panda")
+                if(state=="panda")
                 {
-                    Instantiate(redpandaprefab, transform.position, Quaternion.identity);
-                }
-                else if (state == "tiger")
-                {
-                    Instantiate(tigerprefab, transform.position, Quaternion.identity);
-                }
-                else if (state == "crane")
-                {
-                    Instantiate(craneprefab, transform.position, Quaternion.identity);
-                }
-                else if (state == "koifish")
-                {
-                    Instantiate(koifishprefab, transform.position, Quaternion.identity);
+                    Instantiate(redpandaprefab, transform.position,Quaternion.identity);
                 }
 
-
+<<<<<<< HEAD
+>>>>>>> master
+=======
+>>>>>>> master
                 state = "ghost";
                 colliderState = "null";
                 Debug.Log("You turned back into a ghost");
                 //Spawn in the creature that you used to be
-
+<<<<<<< HEAD
+<<<<<<< HEAD
             }
         }
+   
+    }
 
-     
-        }
 
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         Collider2D collider = collision.collider;
-        if (collision.collider.tag == "possessable" && state == "ghost")
+        if (collision.collider.tag == "possessable")
         {
             Debug.Log("Ran into something you can possess");
+            //Debug.Log("Pressing C?: " + InputManager.Instance.GetPossessionButtonDown_Player1());
+                colliderState = collider.GetComponent<Possessable>().state;
+                
+               
+                //Despawn collider
+            
+        }
+    }
+}
+=======
+=======
+>>>>>>> master
 
-            Debug.Log("Pressing C?: " + InputManager.Instance.GetPossessionButtonDown_Player1());
 
-
-
-            colliderState = collider.GetComponent<Possessable>().state;
-            currentCollider = collider;
-
-            //Despawn collider
-
+            }
 
 
         }
+
     }
+
+       private void OnCollisionStay2D(Collision2D collision)
+        {
+            Collider2D collider = collision.collider;
+            if (collision.collider.tag == "possessable" && state=="ghost")
+            {
+                Debug.Log("Ran into something you can possess");
+
+                Debug.Log("Pressing C?: " + InputManager.Instance.GetPossessionButtonDown_Player1());
+
+
+
+                colliderState = collider.GetComponent<Possessable>().state;
+            currentCollider = collider;
+
+            //Despawn collider
+        
+                
+
+            }
+        }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         currentCollider = null;
         colliderState = "null";
     }
-
-
 }
 
-
-
-
-
+<<<<<<< HEAD
+>>>>>>> master
+=======
+>>>>>>> master
