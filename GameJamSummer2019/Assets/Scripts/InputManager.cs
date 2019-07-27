@@ -52,7 +52,28 @@ public class InputManager : MonoBehaviour
 		return Input.GetKeyDown(KeyCode.Space);
 	}
 
-	public float GetHorizontalAxisRightStick_Player1()
+    public bool GetPrimaryAttackButtonDown_Player1()
+    {
+        if (m_bHasController)
+            return Input.GetButtonDown("Button_X");
+        return Input.GetKeyDown(KeyCode.X);
+    }
+
+    public bool GetSecondaryButtonDown_Player1()
+    {
+        if (m_bHasController)
+            return Input.GetButtonDown("Button_Y");
+        return Input.GetKeyDown(KeyCode.Z);
+    }
+
+    public bool GetPossessionButtonDown_Player1()
+    {
+        if (m_bHasController)
+            return Input.GetButtonDown("Button_B");
+        return Input.GetKeyDown(KeyCode.C);
+    }
+
+    public float GetHorizontalAxisRightStick_Player1()
 	{
 		if (m_bHasController)
 			return Input.GetAxis("Joy_1_RH");
