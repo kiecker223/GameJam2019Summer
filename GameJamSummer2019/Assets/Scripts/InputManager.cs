@@ -22,6 +22,11 @@ public class InputManager : MonoBehaviour
 		return Input.GetAxis("Joy_1_LV");
 	}
 
+	public bool GetJumpButtonDown_Player1()
+	{
+		return Input.GetButtonDown("Button_A");
+	}
+
 	void Update()
 	{
 
