@@ -8,11 +8,18 @@ public class Possession : MonoBehaviour
 
     public Sprite currentSprite;
 
+<<<<<<< Updated upstream
     public string state = "ghost";
     private string colliderState = "null";
 <<<<<<< HEAD
 <<<<<<< HEAD
     private bool isPossessionButtonPressed = false;
+=======
+    public CreatureState state;
+    public CreatureState ghost;
+    //public string state = "ghost";
+    private CreatureState colliderState = new CreatureState();
+>>>>>>> Stashed changes
 
 =======
 =======
@@ -29,6 +36,15 @@ public class Possession : MonoBehaviour
     void Start()
     {
         m_Rb = GetComponent<Rigidbody2D>();
+        //Initialize Ghost
+        ghost.canSwim = false;
+        ghost.canClimb = false;
+        ghost.canFly = false;
+        ghost.speed = 3;
+        ghost.name="ghost";
+
+
+
     }
 
     void Update()
@@ -54,6 +70,7 @@ public class Possession : MonoBehaviour
             Debug.Log("trying to possess");
 
 
+<<<<<<< Updated upstream
             if (state == "ghost" && colliderState != "null")
 <<<<<<< HEAD
 >>>>>>> master
@@ -61,8 +78,12 @@ public class Possession : MonoBehaviour
 >>>>>>> master
             {
                 Debug.Log("You possessed a " + colliderState);
+=======
+            if (state.name == "ghost" && colliderState.name != "null"){
+                Debug.Log("You possessed a " + colliderState.name);
+>>>>>>> Stashed changes
                 state = colliderState;
-                colliderState = "null";
+                colliderState.name = "null";
                 //Despawn the creature that you possessed
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -75,13 +96,28 @@ public class Possession : MonoBehaviour
                 
                 Destroy(currentCollider.gameObject);
             }
+<<<<<<< Updated upstream
 
             else if (state != "ghost")
             {
                 if(state=="panda")
+=======
+            else if (state.name != "ghost")
+            {
+                if (state.name == "panda")
+                {
+                    Instantiate(redpandaprefab, transform.position, Quaternion.identity);
+                }
+                else if (state.name == "tiger")
+                {
+                    Instantiate(tigerprefab, transform.position, Quaternion.identity);
+                }
+                else if (state.name == "crane")
+>>>>>>> Stashed changes
                 {
                     Instantiate(redpandaprefab, transform.position,Quaternion.identity);
                 }
+<<<<<<< Updated upstream
 
 <<<<<<< HEAD
 >>>>>>> master
@@ -89,6 +125,16 @@ public class Possession : MonoBehaviour
 >>>>>>> master
                 state = "ghost";
                 colliderState = "null";
+=======
+                else if (state.name == "koifish")
+                {
+                    Instantiate(koifishprefab, transform.position, Quaternion.identity);
+                }
+
+
+                state = ghost;
+                colliderState.name = "null";
+>>>>>>> Stashed changes
                 Debug.Log("You turned back into a ghost");
                 //Spawn in the creature that you used to be
 <<<<<<< HEAD
@@ -103,7 +149,11 @@ public class Possession : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         Collider2D collider = collision.collider;
+<<<<<<< Updated upstream
         if (collision.collider.tag == "possessable")
+=======
+        if (collision.collider.tag == "possessable" && state.name == "ghost")
+>>>>>>> Stashed changes
         {
             Debug.Log("Ran into something you can possess");
             //Debug.Log("Pressing C?: " + InputManager.Instance.GetPossessionButtonDown_Player1());
@@ -151,7 +201,7 @@ public class Possession : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         currentCollider = null;
-        colliderState = "null";
+        colliderState.name = "null";
     }
 }
 

@@ -153,4 +153,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfbff0de36e57444af06798abe12942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: panda
+  state:
+    name: panda
+    canClimb: 1
+    canSwim: 0
+    canFly: 0
+    speed: 3

@@ -10,8 +10,6 @@ public class PlayerMovement : MonoBehaviour
 
 	public Sprite currentSprite;
 
-	public float characterSpeedHorizontal;
-
 	private float m_VerticalVelocity;
 
 	private bool m_bFacingRight;
@@ -24,11 +22,51 @@ public class PlayerMovement : MonoBehaviour
 			int numHits;
 
 			ContactFilter2D contactFilter = new ContactFilter2D();
+<<<<<<< Updated upstream
 			if (currentSprite)
 				numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, currentSprite.bounds.size.y / 2f);
 			else
 				numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, 0.55f);
 			
+=======
+            if (currentSprite)
+                numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, currentSprite.bounds.size.y / 2f);
+            else
+                numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, 0.55f);
+
+            //Climbing for panda
+            if (possession.state.canClimb)
+            {
+
+              //  bool climbable = Physics2D.Raycast(transform.position, Vector2.left).collider.tag == "climbable" || Physics2D.Raycast(transform.position, Vector2.right).collider.tag == "climbable";
+               
+                int numHitsPanda = 0;
+                    if (currentSprite)
+                    {
+                        numHitsPanda = Physics2D.Raycast(transform.position, Vector2.right, contactFilter, hits2d, currentSprite.bounds.size.y / 2f) - 1;
+                    if (numHits > 0 && hits2d[1].collider.tag == "climbable") return true;
+                    numHitsPanda = Physics2D.Raycast(transform.position, Vector2.left, contactFilter, hits2d, currentSprite.bounds.size.y / 2f) - 1;
+                            if (numHits > 0 && hits2d[1].collider.tag == "climbable") return true;
+                    }
+                    else
+                    {
+                        numHitsPanda = Physics2D.Raycast(transform.position, Vector2.right, contactFilter, hits2d, 0.55f) - 1;
+                         if (numHitsPanda > 0 && hits2d[1].collider.tag == "climbable") return true;
+                         numHitsPanda = Physics2D.Raycast(transform.position, Vector2.left, contactFilter, hits2d, 0.55f) - 1;
+                         if (numHitsPanda > 0 && hits2d[1].collider.tag == "climbable") return true;
+                    
+                }
+                
+            }
+            else if (possession.state.canFly)
+            {
+                return true;
+            }
+
+            
+
+            Debug.Log("num of ray hits: " + numHits);
+>>>>>>> Stashed changes
 			return numHits > 1;
 		}
 	}
@@ -36,13 +74,19 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
 		m_Rb = GetComponent<Rigidbody2D>();
+<<<<<<< Updated upstream
+=======
+        possession = GetComponent<Possession>();
+        possession.state = possession.ghost;
+        possession.state.speed = 3;
+>>>>>>> Stashed changes
     }
 
     void Update()
     {
 		bool bGrounded = bIsGrounded;
 		float inheritedVelocity = m_Rb.velocity.x;
-        float horizontalDir = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * characterSpeedHorizontal;// : inheritedVelocity;
+        float horizontalDir = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * possession.state.speed;// : inheritedVelocity;
 
 		if (horizontalDir > 0.001f)
 		{

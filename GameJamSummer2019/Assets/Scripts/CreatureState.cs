@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class State : MonoBehaviour
+[System.Serializable]
+public struct CreatureState
 {
-  
+    public string name;
+    public bool canClimb;
+    public bool canSwim;
+    public bool canFly;
+    public float speed;
  
 }

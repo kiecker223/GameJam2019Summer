@@ -8,6 +8,8 @@ public class BasicPossessableAI : MonoBehaviour
 
     public float range = 3;
 
+    public Sprite currentSprite;
+
     private float maxLeft;
     private float maxRight;
 
@@ -23,6 +25,30 @@ public class BasicPossessableAI : MonoBehaviour
 
     private int dir = 1;
 
+
+    public bool bIsGrounded
+    {
+        get
+        {
+
+
+            RaycastHit2D[] hits2d = new RaycastHit2D[12];
+            int numHits;
+
+            ContactFilter2D contactFilter = new ContactFilter2D();
+            if (currentSprite)
+                numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, currentSprite.bounds.size.y / 2f);
+            else
+                numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, 0.55f);
+
+            Debug.Log(numHits);
+            return numHits > 1;
+
+
+        }
+    }
+
+
     void Update()
     {
         float x = m_Rb.position.x;
@@ -30,6 +56,12 @@ public class BasicPossessableAI : MonoBehaviour
         {
             dir *= -1;
         }
-        m_Rb.velocity = new Vector3(dir, m_Rb.velocity.y, 0);
+        if(bIsGrounded)m_Rb.velocity = new Vector3(dir, m_Rb.velocity.y, 0);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+    
     }
 }
