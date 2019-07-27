@@ -11,13 +11,19 @@ public class Possession : MonoBehaviour
     public string state = "ghost";
     private string colliderState = "null";
 <<<<<<< HEAD
+<<<<<<< HEAD
     private bool isPossessionButtonPressed = false;
 
 =======
+=======
+>>>>>>> master
     private Collider2D currentCollider;
     private bool isPossessionButtonPressed = false;
 
     public Transform redpandaprefab;
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 
     void Start()
@@ -29,12 +35,15 @@ public class Possession : MonoBehaviour
     {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		isPossessionButtonPressed = false;// InputManager.Instance.GetPossessionButtonDown_Player1();
 
         if (isPossessionButtonPressed)
         {
             if (state == "ghost" && colliderState!="null")
 =======
+=======
+>>>>>>> master
 
 
 
@@ -46,6 +55,9 @@ public class Possession : MonoBehaviour
 
 
             if (state == "ghost" && colliderState != "null")
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
             {
                 Debug.Log("You possessed a " + colliderState);
@@ -53,10 +65,13 @@ public class Possession : MonoBehaviour
                 colliderState = "null";
                 //Despawn the creature that you possessed
 <<<<<<< HEAD
+<<<<<<< HEAD
             }
             else
             {
 =======
+=======
+>>>>>>> master
                 
                 Destroy(currentCollider.gameObject);
             }
@@ -68,11 +83,15 @@ public class Possession : MonoBehaviour
                     Instantiate(redpandaprefab, transform.position,Quaternion.identity);
                 }
 
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
                 state = "ghost";
                 colliderState = "null";
                 Debug.Log("You turned back into a ghost");
                 //Spawn in the creature that you used to be
+<<<<<<< HEAD
 <<<<<<< HEAD
             }
         }
@@ -97,6 +116,8 @@ public class Possession : MonoBehaviour
     }
 }
 =======
+=======
+>>>>>>> master
 
 
             }
@@ -134,4 +155,7 @@ public class Possession : MonoBehaviour
     }
 }
 
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
