@@ -31,6 +31,6 @@ public class RedPanda : MonoBehaviour
         {
             dir *= -1;
         }
-        m_Rb.velocity = new Vector3(dir, 0, 0);
+        m_Rb.velocity = new Vector3(dir, m_Rb.velocity.y, 0);
     }
 }
