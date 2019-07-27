@@ -19,9 +19,9 @@ public class Possession : MonoBehaviour
     }
 
     void Update()
-    { 
-   
-            isPossessionButtonPressed = InputManager.Instance.GetPossessionButtonDown_Player1();
+    {
+
+		isPossessionButtonPressed = false;// InputManager.Instance.GetPossessionButtonDown_Player1();
 
         if (isPossessionButtonPressed)
         {
@@ -51,7 +51,7 @@ public class Possession : MonoBehaviour
         if (collision.collider.tag == "possessable")
         {
             Debug.Log("Ran into something you can possess");
-            Debug.Log("Pressing C?: " + InputManager.Instance.GetPossessionButtonDown_Player1());
+            //Debug.Log("Pressing C?: " + InputManager.Instance.GetPossessionButtonDown_Player1());
                 colliderState = collider.GetComponent<Possessable>().state;
                 
                
