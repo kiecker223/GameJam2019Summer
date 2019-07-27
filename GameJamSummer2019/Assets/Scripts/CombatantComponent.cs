@@ -13,7 +13,8 @@ public enum CombatState
 	Clench,
 	Staggered,
 	Blocking,
-	Parry,
+	ParryHigh,
+	ParryLow,
 	FeintPunch,
 	FeintKick
 }
@@ -22,7 +23,11 @@ public class CombatantComponent : MonoBehaviour
 {
 	public float health { get; set; }
 
+	public float punchDamage;
+	public float kickDamage;
+
 	private float m_ComboTimer;
+	public float optimalTime;
 
 	public CombatState combatState { get; set; }
 
@@ -84,7 +89,8 @@ public class CombatantComponent : MonoBehaviour
 	{
 		if (combatState != CombatState.Staggered)
 		{
-			combatCombo.Enqueue(CombatState.Parry);
+			if (m_bControllerHigh) combatCombo.Enqueue(CombatState.ParryHigh);
+			else combatCombo.Enqueue(CombatState.ParryLow);
 		}
 	}
 
@@ -95,21 +101,73 @@ public class CombatantComponent : MonoBehaviour
 		m_ComboTimer = staggerTime;
 	}
 
+	public float GetDamageForCurrentAttack()
+	{
+		switch (combatState)
+		{
+		case CombatState.Punching:
+		case CombatState.SecondPunch:
+			return punchDamage;
+		case CombatState.LowKick:
+			return kickDamage * 0.89f;
+		case CombatState.HighKick:
+			return kickDamage;
+		default:
+			return 0.0f;
+		};
+	}
+
+	public static bool IsHighAttackState(CombatState inState)
+	{
+		return inState == CombatState.HighKick || inState == CombatState.Punching || inState == CombatState.SecondPunch;
+	}
+
+	public static bool IsLowAttackState(CombatState inState)
+	{
+		return inState == CombatState.LowKick;
+	}
+
+	public void RecieveInteraction(CombatantComponent other)
+	{
+		 
+	}
+
+	CombatantComponent GetEnemyCurrentlyHitting()
+	{
+		RaycastHit2D[] rayHits = new RaycastHit2D[12];
+		ContactFilter2D contactFilter = new ContactFilter2D();
+		int numHits = Physics2D.Raycast(transform.position, transform.right, contactFilter, rayHits, 0.4f);
+		if (numHits > 1)
+		{
+			var collider = rayHits[1].collider;
+			if (collider)
+			{
+				return collider.gameObject.GetComponent<CombatantComponent>();
+			}
+		}
+		return null;
+	}
+
 	void Update()
 	{
-		CombatState cState = CombatState.None;
+		CombatState cState = combatState;
 		m_ComboTimer -= Time.deltaTime;
 		if (m_ComboTimer <= 0.0f)
 		{
 			// Do nothing for now?
 			if (combatCombo.Count == 0)
 			{
-
+				cState = CombatState.None;
 			}
 			else
 			{
 				cState = combatCombo.Dequeue();
 			}
+			combatState = cState;
 		}
+
+		var enemy = GetEnemyCurrentlyHitting();
+
+		
 	}
 }

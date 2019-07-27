@@ -21,6 +21,7 @@ public class Possession : MonoBehaviour
     void Update()
     {
 
+<<<<<<< HEAD
 
 
            isPossessionButtonPressed = InputManager.Instance.GetPossessionButtonDown_Player1();
@@ -28,6 +29,12 @@ public class Possession : MonoBehaviour
         if (isPossessionButtonPressed)
         {
             Debug.Log("trying to possess");
+=======
+		isPossessionButtonPressed = false;// InputManager.Instance.GetPossessionButtonDown_Player1();
+
+        if (isPossessionButtonPressed)
+        {
+>>>>>>> master
             if (state == "ghost" && colliderState!="null")
             {
                 Debug.Log("You possessed a " + colliderState);
@@ -35,7 +42,11 @@ public class Possession : MonoBehaviour
                 colliderState = "null";
                 //Despawn the creature that you possessed
             }
+<<<<<<< HEAD
             else if(state!="ghost")
+=======
+            else
+>>>>>>> master
             {
                 state = "ghost";
                 colliderState = "null";
@@ -54,7 +65,11 @@ public class Possession : MonoBehaviour
         if (collision.collider.tag == "possessable")
         {
             Debug.Log("Ran into something you can possess");
+<<<<<<< HEAD
             Debug.Log("Pressing C?: " + InputManager.Instance.GetPossessionButtonDown_Player1());
+=======
+            //Debug.Log("Pressing C?: " + InputManager.Instance.GetPossessionButtonDown_Player1());
+>>>>>>> master
                 colliderState = collider.GetComponent<Possessable>().state;
                 
                
