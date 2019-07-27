@@ -6,11 +6,15 @@ public class PlayerMovement : MonoBehaviour
 {
 	private Rigidbody2D m_Rb;
 
+	public GameObject playerModel;
+
 	public Sprite currentSprite;
 
 	public float characterSpeedHorizontal;
 
 	private float m_VerticalVelocity;
+
+	private bool m_bFacingRight;
 
 	public bool bIsGrounded
 	{
@@ -39,13 +43,23 @@ public class PlayerMovement : MonoBehaviour
     {
 		bool bGrounded = bIsGrounded;
 		float inheritedVelocity = m_Rb.velocity.x;
-        float left = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * characterSpeedHorizontal;// : inheritedVelocity;
+        float horizontalDir = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * characterSpeedHorizontal;// : inheritedVelocity;
+
+		if (horizontalDir > 0.001f)
+		{
+			m_bFacingRight = true;
+		}
+		else if (horizontalDir < -0.001f)
+		{
+			m_bFacingRight = false;
+		}
+		else { } // Do nothing, Also bad code!!
 
 		bool jumping = InputManager.Instance.GetJumpButtonDown_Player1() && bGrounded;
 		Debug.Log("Jumping: " + jumping.ToString());
 		
 		float verticalVelocity = jumping ? 5f : m_Rb.velocity.y;
-		
-		m_Rb.velocity = new Vector3(left, verticalVelocity, 0);
+		playerModel.transform.right = new Vector3(m_bFacingRight ? 1.0f : -1.0f, 0, 0);
+		m_Rb.velocity = new Vector3(horizontalDir, verticalVelocity, 0);
     }
 }

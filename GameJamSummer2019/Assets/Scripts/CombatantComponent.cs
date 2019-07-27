@@ -5,7 +5,8 @@ using UnityEngine;
 
 public enum CombatState
 {
-	Punching,
+	None,
+	Punching, 
 	SecondPunch,
 	LowKick,
 	HighKick,
@@ -20,6 +21,8 @@ public enum CombatState
 public class CombatantComponent : MonoBehaviour
 {
 	public float health { get; set; }
+
+	private float m_ComboTimer;
 
 	public CombatState combatState { get; set; }
 
@@ -85,8 +88,28 @@ public class CombatantComponent : MonoBehaviour
 		}
 	}
 
+	public void Stagger(float staggerTime)
+	{
+		combatCombo.Clear();
+		combatState = CombatState.Staggered;
+		m_ComboTimer = staggerTime;
+	}
+
 	void Update()
 	{
+		CombatState cState = CombatState.None;
+		m_ComboTimer -= Time.deltaTime;
+		if (m_ComboTimer <= 0.0f)
+		{
+			// Do nothing for now?
+			if (combatCombo.Count == 0)
+			{
 
+			}
+			else
+			{
+				cState = combatCombo.Dequeue();
+			}
+		}
 	}
 }
