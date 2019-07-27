@@ -37,7 +37,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 		bool bGrounded = bIsGrounded;
-		float left = bGrounded ? InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * characterSpeedHorizontal : 0.0f;
+		float inheritedVelocity = m_Rb.velocity.x;
+		float left = bGrounded ? InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * characterSpeedHorizontal : inheritedVelocity;
 
 		bool jumping = InputManager.Instance.GetJumpButtonDown_Player1() && bGrounded;
 		Debug.Log("Jumping: " + jumping.ToString());
