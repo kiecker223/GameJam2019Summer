@@ -16,10 +16,14 @@ public class PlayerMovement : MonoBehaviour
 
 	private bool m_bFacingRight;
 
+    public Possession possession;
+
 	public bool bIsGrounded
 	{
 		get
 		{
+
+
 			RaycastHit2D[] hits2d = new RaycastHit2D[12];
 			int numHits;
 
@@ -29,14 +33,23 @@ public class PlayerMovement : MonoBehaviour
 			else
 				numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, 0.55f);
 
+            //Climbing for panda
+            if (possession.state == "panda")
+            {
+
+            }
+
             Debug.Log(numHits);
 			return numHits > 1;
+            
+         
 		}
 	}
 
     void Start()
     {
 		m_Rb = GetComponent<Rigidbody2D>();
+        possession = GetComponent<Possession>();
     }
 
     void Update()
