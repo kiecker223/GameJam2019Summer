@@ -6,8 +6,9 @@ using UnityEngine;
 public enum CombatState
 {
 	None,
-	Punching, 
+	Jab,
 	SecondPunch,
+	ThirdPunch,
 	LowKick,
 	HighKick,
 	Clench,
@@ -19,19 +20,36 @@ public enum CombatState
 	FeintKick
 }
 
+public struct CombatEvent
+{
+	public CombatState combatState;
+	public float comboTime;
+}
+
 public class CombatantComponent : MonoBehaviour
 {
-	public float health { get; set; }
-
+	public float health;
 	public float punchDamage;
 	public float kickDamage;
 
-	private float m_ComboTimer;
-	public float optimalTime;
+	public float comboTimer
+	{
+		get;
+		private set;
+	}
+	public float comboTime
+	{
+		get;
+		private set;
+	}
+	public float optimalTimeStart;
+	public float optimalTimeEnd;
+
+	public float speedMultiplier;
 
 	public CombatState combatState { get; set; }
 
-	public Queue<CombatState> combatCombo = new Queue<CombatState>();
+	public List<CombatEvent> combatCombo = new List<CombatEvent>();
 
 	bool m_bControllerHigh
 	{
@@ -41,13 +59,51 @@ public class CombatantComponent : MonoBehaviour
 		}
 	}
 
+	public static void GetOptimalTime(ref float timeStart, ref float timeEnd, CombatState combatState)
+	{
+		switch (combatState)
+		{
+		case CombatState.Jab:
+			timeStart = 14f / 60f;
+			timeEnd = 17f / 60f;
+			break;
+		case CombatState.SecondPunch:
+			timeStart = 10f / 60f;
+			timeEnd = 15f / 60f;
+			break;
+		case CombatState.ThirdPunch:
+			timeStart = 6f / 60f;
+			timeEnd = 10f / 60f;
+			break;
+		case CombatState.LowKick:
+			timeStart = 10f / 60f;
+			timeEnd = 17f / 60f;
+			break;
+		case CombatState.HighKick:
+			break;
+		case CombatState.ParryLow:
+		case CombatState.ParryHigh:
+			timeStart = 11f / 60f;
+			timeEnd = 22f / 60f;
+			break;
+		}
+	}
+
 	public void Punch()
 	{
 		if (combatState != CombatState.Staggered)
 		{
-			if (combatState == CombatState.Punching)
+			if (combatState == CombatState.Jab || combatCombo[combatCombo.Count - 1].combatState == CombatState.Jab)
 			{
-				combatCombo.Enqueue(CombatState.SecondPunch);
+				combatCombo.Add(new CombatEvent() { combatState = CombatState.SecondPunch, comboTime = 15f / 60f });
+			}
+			else if (combatState == CombatState.SecondPunch || combatCombo[combatCombo.Count - 1].combatState == CombatState.SecondPunch)
+			{
+				combatCombo.Add(new CombatEvent() { combatState = CombatState.ThirdPunch, comboTime = 10f / 60f });
+			}
+			else if (combatCombo[combatCombo.Count - 1].combatState != CombatState.Jab)
+			{
+				combatCombo.Add(new CombatEvent() { combatState = CombatState.Jab, comboTime = 20f / 60f });
 			}
 		}
 	}
@@ -56,8 +112,7 @@ public class CombatantComponent : MonoBehaviour
 	{
 		if (combatState != CombatState.Staggered)
 		{
-			if (m_bControllerHigh) combatCombo.Enqueue(CombatState.HighKick);
-			else combatCombo.Enqueue(CombatState.LowKick);
+			combatCombo.Add(new CombatEvent() { combatState = CombatState.HighKick, comboTime = 30f / 60f });
 		}
 	}
 	
@@ -65,7 +120,7 @@ public class CombatantComponent : MonoBehaviour
 	{
 		if (combatState != CombatState.Staggered)
 		{
-			combatCombo.Enqueue(CombatState.Clench);
+			//combatCombo.Add(CombatState.Clench);
 		}
 	}
 
@@ -73,7 +128,7 @@ public class CombatantComponent : MonoBehaviour
 	{
 		if (combatState != CombatState.Staggered)
 		{
-			combatCombo.Enqueue(CombatState.FeintKick);
+			//combatCombo.Add(CombatState.FeintKick);
 		}
 	}
 
@@ -81,7 +136,7 @@ public class CombatantComponent : MonoBehaviour
 	{
 		if (combatState != CombatState.Staggered)
 		{
-			combatCombo.Enqueue(CombatState.FeintPunch);
+			//combatCombo.Add(CombatState.FeintPunch);
 		}
 	}
 	
@@ -89,8 +144,8 @@ public class CombatantComponent : MonoBehaviour
 	{
 		if (combatState != CombatState.Staggered)
 		{
-			if (m_bControllerHigh) combatCombo.Enqueue(CombatState.ParryHigh);
-			else combatCombo.Enqueue(CombatState.ParryLow);
+			if (m_bControllerHigh) combatCombo.Add(new CombatEvent() { combatState = CombatState.ParryHigh, comboTime = 31f / 60f });
+			//else combatCombo.Add(CombatState.ParryLow);
 		}
 	}
 
@@ -98,15 +153,16 @@ public class CombatantComponent : MonoBehaviour
 	{
 		combatCombo.Clear();
 		combatState = CombatState.Staggered;
-		m_ComboTimer = staggerTime;
+		comboTimer = staggerTime;
 	}
 
 	public float GetDamageForCurrentAttack()
 	{
 		switch (combatState)
 		{
-		case CombatState.Punching:
+		case CombatState.Jab:
 		case CombatState.SecondPunch:
+		case CombatState.ThirdPunch:
 			return punchDamage;
 		case CombatState.LowKick:
 			return kickDamage * 0.89f;
@@ -119,7 +175,7 @@ public class CombatantComponent : MonoBehaviour
 
 	public static bool IsHighAttackState(CombatState inState)
 	{
-		return inState == CombatState.HighKick || inState == CombatState.Punching || inState == CombatState.SecondPunch;
+		return inState == CombatState.HighKick || inState == CombatState.Jab || inState == CombatState.SecondPunch || inState == CombatState.ThirdPunch;
 	}
 
 	public static bool IsLowAttackState(CombatState inState)
@@ -127,9 +183,71 @@ public class CombatantComponent : MonoBehaviour
 		return inState == CombatState.LowKick;
 	}
 
+	public static bool HasParried(float o1Start, float o1End, float o1ComboTime, float o2Start, float o2End, float o2ComboTime, CombatState o1CombatState, float o1SpeedMultipliers, CombatState o2CombatState, float o2SpeedMultipliers)
+	{
+		if (!(IsHighAttackState(o1CombatState) && o2CombatState == CombatState.ParryHigh))
+		{
+			return false;
+		}
+		if (!(IsLowAttackState(o1CombatState) && o2CombatState == CombatState.ParryLow))
+		{
+			return false;
+		}
+		// If it is at a time when it can be parried?
+		if (o1Start < o1ComboTime && o1ComboTime < o1End)
+		{
+			// Check if the other guy is actually parrying
+			if (o2Start < o2ComboTime && o2ComboTime < o2End)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void RecieveInteraction(CombatantComponent other)
 	{
-		 
+		Debug.Log("Recieved interaction");
+		float otherOptimalStart = 0.0f, otherOptimalEnd = 0.0f;
+		GetOptimalTime(ref otherOptimalStart, ref otherOptimalEnd, other.combatState);
+
+		float optimalStart = 0.0f, optimalEnd = 0.0f;
+		GetOptimalTime(ref optimalStart, ref optimalEnd, combatState);
+
+		if (IsHighAttackState(other.combatState) && combatState == CombatState.ParryHigh)
+		{
+			if (HasParried(optimalStart, optimalEnd, comboTime, otherOptimalStart, otherOptimalEnd, other.comboTime, combatState, 0.0f, other.combatState, 0.0f))
+			{
+				other.Stagger(1.5f);
+			}
+		}
+		else if (IsLowAttackState(other.combatState) && combatState == CombatState.ParryLow)
+		{
+			if (HasParried(optimalStart, optimalEnd, comboTime, otherOptimalStart, otherOptimalEnd, other.comboTime, combatState, 0.0f, other.combatState, 0.0f))
+			{
+				other.Stagger(1.5f);
+			}
+		}
+
+		if (combatState == CombatState.Blocking)
+		{
+			if (otherOptimalStart < other.comboTime && other.comboTime < otherOptimalEnd)
+			{
+				float damage = other.GetDamageForCurrentAttack();
+				damage *= 0.2f;
+				health -= damage;
+				return;
+			}
+		}
+		else
+		{
+			if (otherOptimalStart < other.comboTime && other.comboTime < otherOptimalEnd)
+			{
+				float damage = other.GetDamageForCurrentAttack();
+				health -= damage;
+				return;
+			}
+		}
 	}
 
 	CombatantComponent GetEnemyCurrentlyHitting()
@@ -137,13 +255,25 @@ public class CombatantComponent : MonoBehaviour
 		RaycastHit2D[] rayHits = new RaycastHit2D[12];
 		ContactFilter2D contactFilter = new ContactFilter2D();
 		int numHits = Physics2D.Raycast(transform.position, transform.right, contactFilter, rayHits, 0.4f);
+		Debug.Log("Numhits: " + numHits.ToString());
 		if (numHits > 1)
 		{
-			var collider = rayHits[1].collider;
-			if (collider)
+			for (int i = 1; i < numHits; i++)
 			{
-				return collider.gameObject.GetComponent<CombatantComponent>();
+				var collider = rayHits[i].collider;
+				if (collider)
+				{
+					var obj = collider.gameObject.GetComponent<CombatantComponent>();
+					if (obj != null)
+					{
+						return obj;
+					}
+				}
 			}
+		}
+		else
+		{
+			Debug.Log("Didn't hit shit jack");
 		}
 		return null;
 	}
@@ -151,8 +281,8 @@ public class CombatantComponent : MonoBehaviour
 	void Update()
 	{
 		CombatState cState = combatState;
-		m_ComboTimer -= Time.deltaTime;
-		if (m_ComboTimer <= 0.0f)
+		comboTimer += Time.deltaTime;
+		if (comboTimer >= comboTime)
 		{
 			// Do nothing for now?
 			if (combatCombo.Count == 0)
@@ -161,13 +291,33 @@ public class CombatantComponent : MonoBehaviour
 			}
 			else
 			{
-				cState = combatCombo.Dequeue();
+				// Not ideal to keep a list, but you can't analyze a queue without changing it
+				var comboEvent = combatCombo[combatCombo.Count - 1];
+				comboTime = comboEvent.comboTime;
+				cState = comboEvent.combatState;
+				comboTimer = 0.0f;
+				combatCombo.RemoveAt(combatCombo.Count - 1);
 			}
 			combatState = cState;
 		}
+		else if (comboTimer < comboTime)
+		{
+			var enemy = GetEnemyCurrentlyHitting();
 
-		var enemy = GetEnemyCurrentlyHitting();
+			if (enemy != null)
+			{
+				enemy.RecieveInteraction(this);
+			}
+			else
+			{
+				Debug.Log("enemy was null");
+			}
+		}
 
-		
+
+		if (health <= 0.0f)
+		{
+			Debug.Log("I are died");
+		}
 	}
 }
