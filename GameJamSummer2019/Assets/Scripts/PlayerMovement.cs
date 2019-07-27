@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 		Debug.Log("Jumping: " + jumping.ToString());
 		
 		float verticalVelocity = jumping ? 5f : m_Rb.velocity.y;
-		playerModel.transform.right = new Vector3(m_bFacingRight ? 1.0f : -1.0f, 0, 0);
+		//playerModel.transform.right = new Vector3(m_bFacingRight ? 1.0f : -1.0f, 0, 0);
 		m_Rb.velocity = new Vector3(horizontalDir, verticalVelocity, 0);
     }
 }

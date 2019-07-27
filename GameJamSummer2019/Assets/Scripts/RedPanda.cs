@@ -8,6 +8,7 @@ public class RedPanda : MonoBehaviour
     private Rigidbody2D m_Rb;
 
     public float range = 3;
+
     private float maxLeft;
     private float maxRight;
 
