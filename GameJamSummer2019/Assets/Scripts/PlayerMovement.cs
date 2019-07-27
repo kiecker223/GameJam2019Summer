@@ -24,7 +24,8 @@ public class PlayerMovement : MonoBehaviour
 				numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, currentSprite.bounds.size.y / 2f);
 			else
 				numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, 0.55f);
-			
+
+            Debug.Log(numHits);
 			return numHits > 1;
 		}
 	}
@@ -38,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     {
 		bool bGrounded = bIsGrounded;
 		float inheritedVelocity = m_Rb.velocity.x;
-		float left = bGrounded ? InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * characterSpeedHorizontal : inheritedVelocity;
+        float left = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * characterSpeedHorizontal;// : inheritedVelocity;
 
 		bool jumping = InputManager.Instance.GetJumpButtonDown_Player1() && bGrounded;
 		Debug.Log("Jumping: " + jumping.ToString());

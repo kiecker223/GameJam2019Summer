@@ -23,16 +23,21 @@ public class InputManager : MonoBehaviour
 			{
 				bHasController = true;
 			}
+            Debug.Log(joystick);
 		}
 		m_bHasController = bHasController;
+        Debug.Log(m_bHasController);
+       
 	}
 
 	// TODO: Player controller support
 	public float GetHorizontalAxisLeftStick_Player1()
 	{
-		if (m_bHasController)
-			return Input.GetAxis("Joy_1_LH");
-		return (Input.GetKey(KeyCode.A) ? -1.0f : 0.0f) + (Input.GetKey(KeyCode.D) ? 1.0f : 0.0f);
+        if (m_bHasController)
+         return Input.GetAxis("Joy_1_LH");
+        return (Input.GetKey(KeyCode.A) ? -1.0f : 0.0f) + (Input.GetKey(KeyCode.D) ? 1.0f : 0.0f);
+        
+        
 	}
 
 	public float GetVerticalAxisLeftStick_Player1()
