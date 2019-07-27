@@ -8,6 +8,9 @@ public class InputManager : MonoBehaviour
 
 	bool m_bHasController;
 
+	private Vector2 m_MouseDelta;
+	private Vector2 m_LastMousePosition;
+
 	void Awake()
 	{
 		Instance = this;
@@ -32,7 +35,7 @@ public class InputManager : MonoBehaviour
 		return (Input.GetKey(KeyCode.A) ? -1.0f : 0.0f) + (Input.GetKey(KeyCode.D) ? 1.0f : 0.0f);
 	}
 
-	public float GetVerticalAxisRightStick_Player1()
+	public float GetVerticalAxisLeftStick_Player1()
 	{
 		return Input.GetAxis("Joy_1_LV");
 	}
@@ -44,8 +47,25 @@ public class InputManager : MonoBehaviour
 		return Input.GetKeyDown(KeyCode.Space);
 	}
 
+	public float GetHorizontalAxisRightStick_Player1()
+	{
+		if (m_bHasController)
+			return Input.GetAxis("Joy_1_RH");
+		return m_MouseDelta.x;
+	}
+
+	public float GetVerticalAxisRightStick_Player1()
+	{
+		if (m_bHasController)
+			return Input.GetAxis("Joy_1_RV");
+		return m_MouseDelta.y;
+	}
+
+
 	void Update()
 	{
-
+		Vector2 mousePosition = Input.mousePosition;
+		m_MouseDelta = mousePosition - m_LastMousePosition;
+		m_LastMousePosition = mousePosition;
 	}
 }
