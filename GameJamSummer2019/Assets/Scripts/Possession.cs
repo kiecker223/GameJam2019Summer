@@ -14,6 +14,9 @@ public class Possession : MonoBehaviour
     private bool isPossessionButtonPressed = false;
 
     public Transform redpandaprefab;
+    public Transform tigerprefab;
+    public Transform koifishprefab;
+    public Transform craneprefab;
 
     void Start()
     {
@@ -48,6 +51,18 @@ public class Possession : MonoBehaviour
                 if(state=="panda")
                 {
                     Instantiate(redpandaprefab, transform.position,Quaternion.identity);
+                }
+                else if (state == "tiger")
+                {
+                    Instantiate(tigerprefab, transform.position, Quaternion.identity);
+                }
+                else if (state == "crane")
+                {
+                    Instantiate(craneprefab, transform.position, Quaternion.identity);
+                }
+                else if (state == "koifish")
+                {
+                    Instantiate(koifishprefab, transform.position, Quaternion.identity);
                 }
 
                 state = "ghost";
