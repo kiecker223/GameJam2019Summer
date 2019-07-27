@@ -6,9 +6,13 @@ public class InputManager : MonoBehaviour
 {
 	public static InputManager Instance { get; private set; }
 
+	bool m_bHasController;
+
 	void Awake()
 	{
 		Instance = this;
+		int numJoysticks = Input.GetJoystickNames().Length;
+		m_bHasController = numJoysticks > 0;
 	}
 
 	// TODO: Player controller support
