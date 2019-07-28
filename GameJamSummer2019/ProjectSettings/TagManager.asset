@@ -8,6 +8,8 @@ TagManager:
   - climbable
   - MainMenu
   - water
+  - Undefined
+  - Enemy
   layers:
   - Default
   - TransparentFX
