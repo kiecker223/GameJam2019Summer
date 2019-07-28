@@ -17,9 +17,13 @@ public class PlayerCombat : MonoBehaviour
 		{
 			combatant.Punch();
 		}
-		if (InputManager.Instance.GetSecondaryButtonDown_Player1())
+		else if (InputManager.Instance.GetSecondaryButtonDown_Player1())
 		{
 			combatant.Kick();
+		}
+		else
+		{
+			combatant.anim.SetTrigger("None");
 		}
     }
 }
