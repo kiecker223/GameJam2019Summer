@@ -73,6 +73,13 @@ public class InputManager : MonoBehaviour
         return Input.GetKeyDown(KeyCode.C);
     }
 
+    public bool GetPauseButtonDown_Player1()
+    {
+        if (m_bHasController)
+            return Input.GetButtonDown("Button_Start");
+        return Input.GetKeyDown(KeyCode.Escape);
+    }
+
     public float GetHorizontalAxisRightStick_Player1()
 	{
 		if (m_bHasController)
@@ -87,11 +94,17 @@ public class InputManager : MonoBehaviour
 		return m_MouseDelta.y;
 	}
 
+    bool isPaused = false;
 
 	void Update()
 	{
 		Vector2 mousePosition = Input.mousePosition;
 		m_MouseDelta = mousePosition - m_LastMousePosition;
 		m_LastMousePosition = mousePosition;
+
+        if(GetPauseButtonDown_Player1())
+        {
+            isPaused = !isPaused;
+        }
 	}
 }

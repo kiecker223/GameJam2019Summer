@@ -82,9 +82,27 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    bool isPaused = false;
+
     void Update()
     {
-		bool bGrounded = bIsGrounded;
+
+        if (InputManager.Instance.GetPauseButtonDown_Player1())
+        {
+            isPaused = !isPaused;
+        }
+
+        if (isPaused)
+        {
+            Time.timeScale = 0;
+            return;
+        }
+        
+            Time.timeScale = 1;
+        
+
+
+        bool bGrounded = bIsGrounded;
 		float inheritedVelocity = m_Rb.velocity.x;
         float horizontalDir = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * possession.state.speed;// : inheritedVelocity;
 
