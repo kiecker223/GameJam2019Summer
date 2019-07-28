@@ -112,7 +112,7 @@ MonoBehaviour:
     canClimb: 0
     canSwim: 1
     canFly: 0
-    speed: 3
+    speed: 4.5
 --- !u!50 &4854985355664385952
 Rigidbody2D:
   serializedVersion: 4

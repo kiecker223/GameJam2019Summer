@@ -42,8 +42,10 @@ public class InputManager : MonoBehaviour
 
 	public float GetVerticalAxisLeftStick_Player1()
 	{
+        if(m_bHasController)
 		return Input.GetAxis("Joy_1_LV");
-	}
+        return (Input.GetKey(KeyCode.S) ? -1.0f : 0.0f) + (Input.GetKey(KeyCode.W) ? 1.0f : 0.0f);
+    }
 
 	public bool GetJumpButtonDown_Player1()
 	{

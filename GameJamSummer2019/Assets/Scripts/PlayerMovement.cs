@@ -17,11 +17,14 @@ public class PlayerMovement : MonoBehaviour
 
     public Possession possession;
 
-	public bool bIsGrounded
+    bool isInWater = false;
+
+    public bool bIsGrounded
 	{
 		get
 		{
-			RaycastHit2D[] hits2d = new RaycastHit2D[12];
+            if (isInWater) return true;
+            RaycastHit2D[] hits2d = new RaycastHit2D[12];
 			int numHits;
 
 			ContactFilter2D contactFilter = new ContactFilter2D();
@@ -61,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 
             }
+            
             else if (possession.state.canFly)
             {
                 return true;
@@ -85,8 +89,24 @@ public class PlayerMovement : MonoBehaviour
     }
 
     bool isPaused = false;
+   
 
     public GameObject pauseScreen;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "water")
+        {
+            isInWater = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "water")
+        {
+            isInWater = false;
+        }
+    }
 
     void Update()
     {
@@ -108,24 +128,52 @@ public class PlayerMovement : MonoBehaviour
         
 
 
+
+
         bool bGrounded = bIsGrounded;
 		float inheritedVelocity = m_Rb.velocity.x;
         float horizontalDir = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * possession.state.speed;// : inheritedVelocity;
+        if (horizontalDir > 0.001f)
+        {
+            m_bFacingRight = true;
+        }
+        else if (horizontalDir < -0.001f)
+        {
+            m_bFacingRight = false;
+        }
 
-		if (horizontalDir > 0.001f)
-		{
-			m_bFacingRight = true;
-		}
-		else if (horizontalDir < -0.001f)
-		{
-			m_bFacingRight = false;
-		}
-		else { } // Do nothing, Also bad code!!
+        else { } // Do nothing, Also bad code!!
 
-		bool jumping = InputManager.Instance.GetJumpButtonDown_Player1() && bGrounded;
-		
-		float verticalVelocity = jumping ? 5f : m_Rb.velocity.y;
-		playerModel.transform.right = new Vector3(m_bFacingRight ? 1.0f : -1.0f, 0, 0);
-		m_Rb.velocity = new Vector3(horizontalDir, verticalVelocity, 0);
+        float verticalVelocity =0F;
+
+        if (!isInWater)
+        {
+            bool jumping = InputManager.Instance.GetJumpButtonDown_Player1() && bGrounded;
+
+            verticalVelocity = jumping ? 5f : m_Rb.velocity.y;
+        }
+        else{
+            //Is In Water
+            if(possession.state.canSwim)
+            {
+                verticalVelocity = InputManager.Instance.GetVerticalAxisLeftStick_Player1();
+            }
+            else
+            {
+                bool jumping = InputManager.Instance.GetJumpButtonDown_Player1();
+                if (!jumping)
+                {
+                    verticalVelocity = (Mathf.Clamp(transform.position.y, -1, 1) * -1);
+                }
+                else verticalVelocity += 4f;
+
+
+            }
+
+
+        }
+            playerModel.transform.right = new Vector3(m_bFacingRight ? 1.0f : -1.0f, 0, 0);
+            m_Rb.velocity = new Vector3(horizontalDir, verticalVelocity, 0);
+        
     }
 }
