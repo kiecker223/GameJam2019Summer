@@ -13,17 +13,5 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        if (InputManager.Instance.GetPrimaryAttackButtonDown_Player1())
-		{
-			combatant.Punch();
-		}
-		else if (InputManager.Instance.GetSecondaryButtonDown_Player1())
-		{
-			combatant.Kick();
-		}
-		else
-		{
-			combatant.anim.SetTrigger("None");
-		}
     }
 }

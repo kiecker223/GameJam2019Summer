@@ -122,13 +122,11 @@ public class PlayerMovement : MonoBehaviour
             Time.timeScale = 0;
             return;
         }
-        pauseScreen.SetActive(false);
+
+		if (pauseScreen)
+			pauseScreen.SetActive(false);
 
         Time.timeScale = 1;
-        
-
-
-
 
         bool bGrounded = bIsGrounded;
 		float inheritedVelocity = m_Rb.velocity.x;
@@ -141,7 +139,6 @@ public class PlayerMovement : MonoBehaviour
         {
             m_bFacingRight = false;
         }
-
         else { } // Do nothing, Also bad code!!
 
         float verticalVelocity =0F;

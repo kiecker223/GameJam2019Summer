@@ -9,39 +9,17 @@ public class DummyHitCollider : MonoBehaviour
 	
 	void OnTriggerStay2D(Collider2D other)
 	{
-		Debug.Log("Hit something");
-		if (other.tag == "Hitable")
-		{
-			Debug.Log("Hit hitable");
-			if (bIsHigh)
-			{
-				parentCombatant.highHitObject = other.gameObject;
-			}
-			else
-			{
-				parentCombatant.lowHitObject = other.gameObject;
-			}
-		}
-		if (other.tag == "Player")
-		{
-			parentCombatant.optimalHit = true;
-		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("Hit something");
-		if (other.tag == "Hitable")
+		if (other.tag == "Enemy")
 		{
-			Debug.Log("Hit hitable");
-			if (bIsHigh)
-			{
-				parentCombatant.highHitObject = other.gameObject;
-			}
-			else
-			{
-				parentCombatant.lowHitObject = other.gameObject;
-			}
+
 		}
+	}
+
+	void OnTriggerExit2D(Collider2D other)
+	{
 	}
 }

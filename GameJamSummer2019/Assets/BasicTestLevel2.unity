@@ -702,7 +702,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370024246}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1238,6 +1238,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1415928712148658458, guid: 578ac9b011d87bc4b9e01fc767c53f23,
+        type: 3}
+      propertyPath: orthographic size
+      value: 1.8
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1415928711339496487, guid: 578ac9b011d87bc4b9e01fc767c53f23, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 578ac9b011d87bc4b9e01fc767c53f23, type: 3}
@@ -1564,7 +1569,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426801464}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1730,6 +1735,8 @@ MonoBehaviour:
   kickDamage: 10
   anim: {fileID: 773855281}
   speedMultiplier: 0
+  prevCombatState: 0
+  beforePrevCombatState: 0
   optimalHit: 0
   highHitObjectDummy: {fileID: 370024246}
   lowHitObjectDummy: {fileID: 1426801464}
@@ -2109,6 +2116,8 @@ MonoBehaviour:
   kickDamage: 10
   anim: {fileID: 301385170}
   speedMultiplier: 0
+  prevCombatState: 0
+  beforePrevCombatState: 0
   optimalHit: 0
   highHitObjectDummy: {fileID: 0}
   lowHitObjectDummy: {fileID: 0}
