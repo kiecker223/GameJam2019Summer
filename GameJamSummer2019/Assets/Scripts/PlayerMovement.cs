@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -80,9 +81,12 @@ public class PlayerMovement : MonoBehaviour
         possession.state = possession.ghost;
         possession.state.speed = 3;
 
+        pauseScreen = GameObject.FindGameObjectWithTag("MainMenu");
     }
 
     bool isPaused = false;
+
+    public GameObject pauseScreen;
 
     void Update()
     {
@@ -94,11 +98,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (isPaused)
         {
+            pauseScreen.SetActive(true);
             Time.timeScale = 0;
             return;
         }
-        
-            Time.timeScale = 1;
+        pauseScreen.SetActive(false);
+
+        Time.timeScale = 1;
         
 
 

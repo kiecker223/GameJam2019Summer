@@ -94,7 +94,7 @@ public class InputManager : MonoBehaviour
 		return m_MouseDelta.y;
 	}
 
-    bool isPaused = false;
+  
 
 	void Update()
 	{
@@ -102,9 +102,6 @@ public class InputManager : MonoBehaviour
 		m_MouseDelta = mousePosition - m_LastMousePosition;
 		m_LastMousePosition = mousePosition;
 
-        if(GetPauseButtonDown_Player1())
-        {
-            isPaused = !isPaused;
-        }
+      
 	}
 }
