@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private bool m_bFacingRight;
 
+    public Possession possession;
+
 	public bool bIsGrounded
 	{
 		get
@@ -22,17 +24,17 @@ public class PlayerMovement : MonoBehaviour
 			int numHits;
 
 			ContactFilter2D contactFilter = new ContactFilter2D();
-<<<<<<< Updated upstream
+
 			if (currentSprite)
 				numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, currentSprite.bounds.size.y / 2f);
 			else
 				numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, 0.55f);
 			
-=======
-            if (currentSprite)
+
+            /*if (currentSprite)
                 numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, currentSprite.bounds.size.y / 2f);
             else
-                numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, 0.55f);
+                numHits = Physics2D.Raycast(transform.position, Vector2.down, contactFilter, hits2d, 0.55f);*/
 
             //Climbing for panda
             if (possession.state.canClimb)
@@ -63,10 +65,9 @@ public class PlayerMovement : MonoBehaviour
                 return true;
             }
 
-            
+
 
             Debug.Log("num of ray hits: " + numHits);
->>>>>>> Stashed changes
 			return numHits > 1;
 		}
 	}
@@ -74,12 +75,11 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
 		m_Rb = GetComponent<Rigidbody2D>();
-<<<<<<< Updated upstream
-=======
+
         possession = GetComponent<Possession>();
         possession.state = possession.ghost;
         possession.state.speed = 3;
->>>>>>> Stashed changes
+
     }
 
     void Update()
