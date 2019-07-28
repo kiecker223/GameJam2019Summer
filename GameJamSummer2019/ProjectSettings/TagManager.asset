@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - possessable
-  - Hitable
+  - climbable
+  - MainMenu
+  - water
   layers:
   - Default
   - TransparentFX

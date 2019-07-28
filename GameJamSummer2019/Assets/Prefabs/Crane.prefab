@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 2
   currentSprite: {fileID: 0}
+  possessable: {fileID: 51778291126567450}
 --- !u!114 &51778291126567450
 MonoBehaviour:
   m_ObjectHideFlags: 0

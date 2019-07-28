@@ -13,23 +13,33 @@ public class BasicPossessableAI : MonoBehaviour
     private float maxLeft;
     private float maxRight;
 
+    public Possessable possessable;
+    private float dir;
+
+    private bool isInWater = false;
+
     // Start is called before the first frame update
     void Start()
     {
         m_Rb = GetComponent<Rigidbody2D>();
         maxLeft = m_Rb.position.x;
         maxRight = maxLeft + range;
+
+        possessable = GetComponent<Possessable>();
+        dir = possessable.state.speed;
     }
 
     // Update is called once per frame
 
-    private int dir = 1;
+   
 
+  
 
     public bool bIsGrounded
     {
         get
         {
+            if (isInWater) return true;
 
 
             RaycastHit2D[] hits2d = new RaycastHit2D[12];
@@ -48,20 +58,42 @@ public class BasicPossessableAI : MonoBehaviour
         }
     }
 
+    float verticalVelocity;
 
     void Update()
     {
+
+        verticalVelocity = m_Rb.velocity.y;
+        
+        if (isInWater)
+        {
+            float change = 0;
+            if (possessable.state.canSwim) change = .8f;
+            verticalVelocity = (Mathf.Clamp(transform.position.y+change, -1, 1) * -1);
+        }
+
+        Debug.Log(possessable.state.name);
         float x = m_Rb.position.x;
-        if (x < maxLeft && dir == -1 || x > maxRight && dir == 1)
+        if (x < maxLeft && dir == possessable.state.speed*-1 || x > maxRight && dir == possessable.state.speed)
         {
             dir *= -1;
         }
-        if(bIsGrounded)m_Rb.velocity = new Vector3(dir, m_Rb.velocity.y, 0);
+
+        if(bIsGrounded)
+            m_Rb.velocity = new Vector3(dir/3, verticalVelocity, 0);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-
-    
+        if (collision.tag == "water") isInWater = true;
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "water") isInWater = false;
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "water") isInWater = true;
+    }
+   
 }
