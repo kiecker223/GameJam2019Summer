@@ -1922,6 +1922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 3
   currentSprite: {fileID: 0}
+  possessable: {fileID: 0}
 --- !u!1 &1997175740
 GameObject:
   m_ObjectHideFlags: 0
@@ -2434,22 +2435,22 @@ PrefabInstance:
     - target: {fileID: 5485024212368486554, guid: f99cf62105a2f9f4488be824abdca281,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 20
+      value: 12.000001
       objectReference: {fileID: 0}
     - target: {fileID: 5485024212368486554, guid: f99cf62105a2f9f4488be824abdca281,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 16
+      value: 12.01172
       objectReference: {fileID: 0}
     - target: {fileID: 5485024212368486554, guid: f99cf62105a2f9f4488be824abdca281,
         type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 20
+      value: 12.000001
       objectReference: {fileID: 0}
     - target: {fileID: 5485024212368486554, guid: f99cf62105a2f9f4488be824abdca281,
         type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 16
+      value: 12.01172
       objectReference: {fileID: 0}
     - target: {fileID: 5485024212368486554, guid: f99cf62105a2f9f4488be824abdca281,
         type: 3}
@@ -2470,6 +2471,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.y
       value: 15.765499
+      objectReference: {fileID: 0}
+    - target: {fileID: 5485024212368486554, guid: f99cf62105a2f9f4488be824abdca281,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.drawMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f99cf62105a2f9f4488be824abdca281, type: 3}

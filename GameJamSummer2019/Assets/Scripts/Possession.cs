@@ -113,5 +113,13 @@ public class Possession : MonoBehaviour
             }
         }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(collision.collider.tag=="possessable")
+        {
+            colliderState.name = "null";
+        }
+    }
+
 
 }

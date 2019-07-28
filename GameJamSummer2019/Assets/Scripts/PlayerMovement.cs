@@ -132,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
 
         bool bGrounded = bIsGrounded;
 		float inheritedVelocity = m_Rb.velocity.x;
-        float horizontalDir = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * possession.state.speed;// : inheritedVelocity;
+        float horizontalDir = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * possession.state.speed / (isInWater ? 2 : 1);// : inheritedVelocity;
         if (horizontalDir > 0.001f)
         {
             m_bFacingRight = true;
@@ -156,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
             //Is In Water
             if(possession.state.canSwim)
             {
-                verticalVelocity = InputManager.Instance.GetVerticalAxisLeftStick_Player1();
+                verticalVelocity = InputManager.Instance.GetVerticalAxisLeftStick_Player1()*3f;
             }
             else
             {
