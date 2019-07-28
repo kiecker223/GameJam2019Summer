@@ -70,6 +70,7 @@ public class BasicPossessableAI : MonoBehaviour
             float change = 0;
             if (possessable.state.canSwim) change = .8f;
             verticalVelocity = (Mathf.Clamp(transform.position.y+change, -1, 1) * -1);
+            Debug.Log(possessable.state.name + " is in water");
         }
 
         Debug.Log(possessable.state.name);

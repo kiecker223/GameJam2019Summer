@@ -43,7 +43,7 @@ public class InputManager : MonoBehaviour
 	public float GetVerticalAxisLeftStick_Player1()
 	{
         if(m_bHasController)
-		return Input.GetAxis("Joy_1_LV");
+		return Input.GetAxis("Joy_1_LV")*-1;
         return (Input.GetKey(KeyCode.S) ? -1.0f : 0.0f) + (Input.GetKey(KeyCode.W) ? 1.0f : 0.0f);
     }
 
@@ -77,8 +77,8 @@ public class InputManager : MonoBehaviour
 
     public bool GetPauseButtonDown_Player1()
     {
-        if (m_bHasController)
-            return Input.GetButtonDown("Button_Start");
+        //if (m_bHasController)
+        //    return Input.GetButtonDown("Button_Start");
         return Input.GetKeyDown(KeyCode.Escape);
     }
 
