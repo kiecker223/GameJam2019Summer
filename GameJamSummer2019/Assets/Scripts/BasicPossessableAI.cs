@@ -78,9 +78,9 @@ public class BasicPossessableAI : MonoBehaviour
         {
             dir *= -1;
         }
-
+        
         if(bIsGrounded)
-            m_Rb.velocity = new Vector3(dir/3, verticalVelocity, 0);
+            m_Rb.velocity = new Vector3((dir/3)/(isInWater?2:1), verticalVelocity, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

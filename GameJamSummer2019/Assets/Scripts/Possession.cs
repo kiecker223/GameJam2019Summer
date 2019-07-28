@@ -105,13 +105,28 @@ public class Possession : MonoBehaviour
 
                 colliderState = collider.GetComponent<Possessable>().state;
              currentCollider = collider;
-
-            //Despawn collider
         
                 
 
             }
         }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(collision.collider.tag=="possessable")
+        {
+            colliderState.name = "null";
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Collider2D collider = collision.collider;
+        if (collision.collider.tag == "possessable")
+        {
+            colliderState = collider.GetComponent<Possessable>().state;
+            currentCollider = collider;
+        }
+    }
 
 
 }
