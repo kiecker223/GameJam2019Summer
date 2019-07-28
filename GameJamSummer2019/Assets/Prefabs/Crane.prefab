@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 2
+  currentSprite: {fileID: 0}
 --- !u!114 &818362748518443216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +107,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfbff0de36e57444af06798abe12942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: crane
+  state:
+    name: crane
+    canClimb: 0
+    canSwim: 0
+    canFly: 1
+    speed: 3
 --- !u!50 &5184246753357224529
 Rigidbody2D:
   serializedVersion: 4

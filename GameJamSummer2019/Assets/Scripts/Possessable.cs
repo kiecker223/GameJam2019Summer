@@ -5,16 +5,6 @@ using UnityEngine;
 public class Possessable : MonoBehaviour
 {
 
-    public string state;
+    public CreatureState state;
 
-    void Start()
-    {
-        
-    }
-
-
-    void Update()
-    {
-        
-    }
 }
