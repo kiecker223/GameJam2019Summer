@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
         bool bGrounded = bIsGrounded;
 		float inheritedVelocity = m_Rb.velocity.x;
-        float horizontalDir = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * possession.state.speed / (isInWater ? 2 : 1);// : inheritedVelocity;
+        float horizontalDir = InputManager.Instance.GetHorizontalAxisLeftStick_Player1() * possession.state.speed / (isInWater && !possession.state.canSwim ? 2 : 1);// : inheritedVelocity;
         if (horizontalDir > 0.001f)
         {
             m_bFacingRight = true;
